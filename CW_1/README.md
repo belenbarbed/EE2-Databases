@@ -11,7 +11,7 @@ order of the questions below, and be separated by semi-colons.
 
 To test your answer against the Postgres version of the database, you should run the command:
 
-psql −h db.doc.ic.ac.uk −d familyhistory −U lab −W −f db_2017_cw1.sql
+psql −h db.doc.ic.ac.uk −d family_history −U lab −W −f db_2017_cw1.sql
 
 Note that 60% of the marks will be awarded for correctness, and 40% of the marks for style,
 including how consise the queries are, appropriate use of indentation, use of Capital letters for

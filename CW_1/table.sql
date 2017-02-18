@@ -1,0 +1,3 @@
+-- RETURNS WHOLE TABLE
+SELECT *
+FROM person

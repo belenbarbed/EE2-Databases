@@ -1,3 +1,4 @@
 -- RETURNS WHOLE TABLE
 SELECT *
 FROM person
+ORDER BY dob

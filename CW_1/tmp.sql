@@ -1,3 +1,4 @@
+/*
 -- Q1 returns (name,dod)
 SELECT personb.name, persona.dod
 FROM person AS persona
@@ -29,6 +30,15 @@ ORDER BY name
 ;
 
 -- Q4 returns (name,father,mother)
+
+SELECT name, dob, father, mother
+FROM person
+WHERE father IS NOT NULL
+AND mother IS NOT NULL
+GROUP BY name, father, mother
+ORDER BY father, mother, dob
+;
+
 SELECT name, father, mother
 FROM person
 WHERE dob IN (SELECT DISTINCT MIN(dob)
@@ -48,7 +58,17 @@ AND mother IN (SELECT DISTINCT mother
 			   GROUP BY father, mother)			   
 ;
 
+
 -- Q5 returns (name,popularity)
+
+SELECT SUBSTRING((name || ' ') FROM 1 FOR POSITION(' ' IN (name || ' '))) AS name,
+       COUNT(name) AS popularity
+FROM person
+GROUP BY SUBSTRING((name || ' ') FROM 1 FOR POSITION(' ' IN (name || ' ')))
+HAVING COUNT(name) > 1
+ORDER BY popularity DESC
+;
+
 SELECT SUBSTRING((name || ' ') FROM 1 FOR POSITION(' ' IN (name || ' '))) AS name,
        RANK() OVER (ORDER BY COUNT(name) DESC) AS popularity
 FROM person
@@ -56,7 +76,7 @@ GROUP BY SUBSTRING((name || ' ') FROM 1 FOR POSITION(' ' IN (name || ' ')))
 HAVING COUNT(name) > 1
 ;
 
--- TODO: Q6 returns (name,forties,fifties,sixties)
+-- Q6 returns (name,forties,fifties,sixties)
 SELECT name,
 	   dob,
        COUNT(CASE WHEN date_part('year', dob)='1940' THEN name ELSE NULL END) AS forties,
@@ -67,7 +87,7 @@ GROUP BY name
 ORDER BY dob
 ;
 
--- TODO: Q7 returns (father,mother,child,born)
+-- Q7 returns (father,mother,child,born)
 SELECT dob, father, mother, name AS child, COUNT(DISTINCT father) AS born
 FROM person
 WHERE father IS NOT NULL
@@ -75,13 +95,16 @@ AND mother IS NOT NULL
 GROUP BY name, father, mother
 ORDER BY father, mother, dob
 ;
-
+*/
 -- Q8 returns (father,mother,male)
 SELECT father, mother,
+	   --COUNT(gender) AS children,
+	   --COUNT(CASE WHEN gender='M' THEN name ELSE NULL END) AS sons,
 	   (((COUNT(CASE WHEN gender='M' THEN name ELSE NULL END))*100) / (COUNT(gender))) AS male
 FROM person as person1
 WHERE father IS NOT NULL
-AND mother IS NOT NULL
+--OR mother IS NOT NULL		-- includes single parents
+AND mother IS NOT NULL		-- only full couples in database
 GROUP BY father, mother
 ORDER BY father, mother
 ;

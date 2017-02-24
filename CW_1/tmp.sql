@@ -1,4 +1,3 @@
-/*
 -- Q1 returns (name,dod)
 SELECT personb.name, persona.dod
 FROM person AS persona
@@ -95,7 +94,7 @@ AND mother IS NOT NULL
 GROUP BY name, father, mother
 ORDER BY father, mother, dob
 ;
-*/
+
 -- Q8 returns (father,mother,male)
 SELECT father, mother,
 	   --COUNT(gender) AS children,

@@ -45,15 +45,17 @@ AND mother IN (SELECT DISTINCT mother
 			   FROM person
 			   WHERE father IS NOT NULL
 			   AND mother IS NOT NULL
-			   GROUP BY father, mother)			   
+			   GROUP BY father, mother)
+ORDER BY name
 ;
 
 -- Q5 returns (name,popularity)
 SELECT SUBSTRING((name || ' ') FROM 1 FOR POSITION(' ' IN (name || ' '))) AS name,
-       RANK() OVER (ORDER BY COUNT(name) DESC) AS popularity
+       COUNT(name) AS popularity
 FROM person
 GROUP BY SUBSTRING((name || ' ') FROM 1 FOR POSITION(' ' IN (name || ' ')))
 HAVING COUNT(name) > 1
+ORDER BY popularity DESC, name
 ;
 
 -- TODO: Q6 returns (name,forties,fifties,sixties)
@@ -68,7 +70,8 @@ ORDER BY dob
 ;
 
 -- TODO: Q7 returns (father,mother,child,born)
-SELECT dob, father, mother, name AS child, COUNT(DISTINCT father) AS born
+SELECT dob, father, mother, name AS child,
+       RANK() OVER (ORDER BY dob DESC) AS born
 FROM person
 WHERE father IS NOT NULL
 AND mother IS NOT NULL
